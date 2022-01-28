@@ -18,7 +18,7 @@ def espace_dispo(salle):
     return ESPACE_DISPO
     
 
-def deplacement_personnage(personnage, direction, monstres, potions, points, salle, sac):
+def deplacement_personnage(personnage, direction, monstres, potions, points, salle, sac, étage):
     a, b = personnage
     ESPACE_DISPO = espace_dispo(salle)
     personnage_new = (a + direction[0], b + direction[1])
@@ -28,7 +28,14 @@ def deplacement_personnage(personnage, direction, monstres, potions, points, sal
     if personnage_new in ESPACE_DISPO:
         if personnage_new in monstres:
             monstres.remove(personnage_new)
-            proba = [0, 1]
+            if étage == 0 or étage == 1:
+                proba = [0, 1]
+            elif étage == 2:
+                proba = [0, 0, 1]
+            elif étage == 3:
+                proba = [0, 0, 0, 1]
+            else:
+                proba = [0, 0, 0, 0, 1]
             p = rd.choice(proba)
             if p == 0: 
                 points -= 1
