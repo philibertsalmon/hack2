@@ -2,7 +2,7 @@ import random as rd
 from turtle import pos
 
 def manu(salle, nb_lines, nb_columns):
-    objets = ["B", "j"] #"*", "!", "(", "&", "o"
+    objets = ["B", "j", "="] #"*", "!", "(", "&", "o"
 
     monstres = []
     potions = []
@@ -16,6 +16,7 @@ def manu(salle, nb_lines, nb_columns):
                     objet = rd.choice(objets)
                     if objet == "B":
                         monstres.append((i,j))
-                    else:
+                    elif objet == "j":
                         potions.append((i,j))
-    return potions, monstres
+
+    return potions, monstres, escaliers

@@ -36,11 +36,11 @@ def create_salle2(nb_lines, nb_columns):
            vertical = random.randint(2, nb_lines-x-2)
            horizontal = random.randint(2, nb_columns-y-2)
            if all([salle[x+l][y+i]==' ' for i in range(horizontal+2) for l in range(vertical+2)]):
-               x1 = x
-               x2 = x + vertical
-               y1 = y
-               y2 = y + horizontal
-               recap_salles.append([x1, x2, y1, y2])
+               haut_gche = (x,y)
+               bas_gche = (x + vertical,y)
+               haut_drte = (x, y + horizontal)
+               bas_drte = (x + vertical, y + horizontal)
+               recap_salles.append([haut_gche, bas_gche, haut_drte, bas_drte])
                for k in range(horizontal+1) :
                    salle[x][y+k] = '-'
                    salle[x+vertical][y+k] = '-'
@@ -51,4 +51,5 @@ def create_salle2(nb_lines, nb_columns):
                    for j in range(1, horizontal):
                        salle[x+k][y+j] = '.'
    return salle, recap_salles
+
 
