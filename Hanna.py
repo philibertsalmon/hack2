@@ -50,4 +50,5 @@ def create_salle2(nb_lines, nb_columns):
                for k in range(1, vertical):
                    for j in range(1, horizontal):
                        salle[x+k][y+j] = '.'
-   return salle
+   return salle, recap_salles
+
