@@ -24,6 +24,7 @@ def create_salle(nb_lines, nb_columns):
 
 def create_salle2(nb_lines, nb_columns):
    salle = []
+   recap_salles = []
    for i in range(nb_lines):
        salle += [[' ' for k in range(nb_columns)]]
 
@@ -35,6 +36,11 @@ def create_salle2(nb_lines, nb_columns):
            vertical = random.randint(2, nb_lines-x-2)
            horizontal = random.randint(2, nb_columns-y-2)
            if all([salle[x+l][y+i]==' ' for i in range(horizontal+2) for l in range(vertical+2)]):
+               x1 = x
+               x2 = x + vertical
+               y1 = y
+               y2 = y + horizontal
+               recap_salles.append([x1, x2, y1, y2])
                for k in range(horizontal+1) :
                    salle[x][y+k] = '-'
                    salle[x+vertical][y+k] = '-'
