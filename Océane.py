@@ -1,6 +1,6 @@
 
 import pygame as pg
-from random import *
+import random as rd
 
 "variable SALLE: tableau numpy python"
 "monstre=coordonnées de la position du monstre"
@@ -21,36 +21,26 @@ def espace_dispo(salle):
 def deplacement_personnage(personnage, direction, monstres, potions, points, salle, sac):
     a, b = personnage
     ESPACE_DISPO = espace_dispo(salle)
-
+    print(ESPACE_DISPO)
     personnage_new = (a + direction[0], b + direction[1])
 
     message=''
 
     if personnage_new in ESPACE_DISPO:
         if personnage_new in monstres:
-            proba = [0,1]
-            p = random.choices(proba)
+            proba = [0, 1]
+            p = rd.choice(proba)
             if p == 0: 
                 points -= 1
                 message += 'Vous avez rencontré un monstre, et vous avez perdu'
-            if p==1:
-                message+='Vous avez rencontré un monstre, et vous avez gagné'
-                if points!=5: 
-                    points+=1
+            if p == 1:
+                message += 'Vous avez rencontré un monstre, et vous avez gagné'
+                if points != 5: 
+                    points += 1
 
         if personnage_new in potions:
             if points != 5:
                 points += 1
             else: sac.append('potion')    
-    personnage = personnage_new
+        personnage = personnage_new
     return personnage, points
-
-     
-
-
-
-
-
-
-
-
