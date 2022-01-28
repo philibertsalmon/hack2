@@ -100,5 +100,6 @@ def create_donjon(nb_lines, nb_columns):
     donjon = []
     for i in range(4):
         donjon.append(create_salle3(nb_lines, nb_columns)[0])
+
     donjon.append(create_salle3(nb_lines, nb_columns, True))
     return donjon

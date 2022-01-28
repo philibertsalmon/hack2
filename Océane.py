@@ -18,6 +18,7 @@ def espace_dispo(salle):
     return ESPACE_DISPO
     
 
+
 def deplacement_personnage(personnage, direction, monstres, potions, points, salle, sac, message, étage):
     a, b = personnage
     ESPACE_DISPO = espace_dispo(salle)
