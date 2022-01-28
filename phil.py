@@ -1,11 +1,16 @@
 import pygame as pg
+
+from Manuela import manu
+from Hanna import hanna_salle
+
+
 pg.init() #on initialise pygame, une fois au début du programe
 
-cell_size = ...
+cell_size = 15
 nb_lines = ...
 nb_columns = ...
 
-salle = ... # Nouvelle salle de Hanna
+salle = hanna_salle() # Nouvelle salle de Hanna
 murs = []
 espace_vide = []
 portes = []
@@ -21,10 +26,7 @@ for i in range(nb_lines):
         elif salle[i][j] == '#':
             chemins.append((i,j))
 
-potions = ... # Acquisitions potions
-
-monstres = ... # Acquisitions monstres
-
+potions, monstres = manu(salle, nb_lines, nb_columns)
 
 points = ... #score du mec
 
