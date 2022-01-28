@@ -2,7 +2,7 @@ import pygame as pg
 import random as rd
 
 from Manuela import manu
-from Hanna import create_salle
+from Hanna import create_salle, create_salle2
 from Océane import *
 
 pg.init() #on initialise pygame, une fois au début du programe
@@ -11,7 +11,7 @@ cell_size = 15
 nb_lines = 30
 nb_columns = 30
 
-salle = create_salle(nb_lines, nb_columns) # Nouvelle salle de Hanna
+salle = create_salle2(nb_lines, nb_columns) # Nouvelle salle de Hanna
 murs = []
 espace_vide = []
 portes = []
