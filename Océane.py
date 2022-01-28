@@ -5,40 +5,45 @@ from random import *
 "variable SALLE: tableau numpy python"
 "monstre=coordonnées de la position du monstre"
 
-ESPACE_DISPO=[]
 
-for i in range(len(SCREEN)):
-    for j in range(len(SCREEN[0])):
-        if SCREEN[i][j]=='.':
-            ESPACE_DISPO.append((i,j))
+
+
+def espace_dispo(salle):
+    ESPACE_DISPO=[]
+
+    for i in range(len(salle)):
+        for j in range(len(salle[0])):
+            if salle[i][j]=='.':
+                ESPACE_DISPO.append((i,j))
+    return ESPACE_DISPO
     
 
-personnage=random.choices(ESPACE_DISPO)
-sac=[]
-point_de_vie=5
+def deplacement_personnage(personnage, direction, monstres, potions, points, salle, sac):
+    a, b = personnage
+    ESPACE_DISPO = espace_dispo(salle)
 
-a,b=personnage
-personnage_new=(a+direction[0],b+direction[1]) 
-message=''
+    personnage_new = (a + direction[0], b + direction[1])
 
-if personnage_new in ESPACE_DISPO:
+    message=''
 
-    if personnage_new in monstres:
-        proba=[0,1]
-        p=random.choices(proba)
-        if p==0: 
-            point_de_vie-=1
-            message+='Vous avez rencontré un monstre, et vous avez perdu'
-        if p==1:
-            message+='Vous avez rencontré un monstre, et vous avez gagné'
-            if point_de_vie!=5: 
-                point_de_vie+=1
+    if personnage_new in ESPACE_DISPO:
+        if personnage_new in monstres:
+            proba = [0,1]
+            p = random.choices(proba)
+            if p == 0: 
+                points -= 1
+                message += 'Vous avez rencontré un monstre, et vous avez perdu'
+            if p==1:
+                message+='Vous avez rencontré un monstre, et vous avez gagné'
+                if points!=5: 
+                    points+=1
 
-    if personnage_new in potions:
-        if point_de_vie!=5:point_de_vie+=1
-        else: sac.append(j)    
-
-    personnage=personnage_new    
+        if personnage_new in potions:
+            if points != 5:
+                points += 1
+            else: sac.append('potion')    
+    personnage = personnage_new
+    return personnage, points
 
      
 

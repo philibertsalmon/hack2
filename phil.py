@@ -2,7 +2,7 @@ import pygame as pg
 
 from Manuela import manu
 from Hanna import hanna_salle
-
+from Océane import *
 
 pg.init() #on initialise pygame, une fois au début du programe
 
@@ -45,6 +45,12 @@ DIR_RIGHT = (1, 0)
 
 running = True
 
+
+# Init :
+personnage = random.choices(espace_dispo(salle))
+sac = []
+points = 5
+
 while running:
 
     screen = pg.display.set_mode((nb_lines*cell_size,nb_columns*cell_size)) # Fenêtre
@@ -68,8 +74,9 @@ while running:
             elif event.key == pg.K_LEFT:
                 direction = DIR_LEFT
             break
-    
 
+    # Refresh perso :
+    personnage, points = deplacement_personnage(personnage, direction, monstres, potions, points, salle, sac)
 
     # Affichage de la salle
     screen.fill(black)
