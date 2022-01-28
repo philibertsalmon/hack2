@@ -45,6 +45,38 @@ def deplacement_personnage(personnage, direction, monstres, potions, points, sal
     personnage = personnage_new
     return personnage, points
 
+
+def mouv_monstre(salle,personnage,coord_monstre):
+    m1, m2 = coord_monstre
+    p1, p2= personnage
+
+    if m1<p1 and m2<p2:
+        m1+=1
+        m2+=1
+    if m1<p1 and m2>p2:
+        m1+=1
+        m2-=1
+    if m1>p1 and m2>p2:
+        m1-=1
+        m2-=1
+    if m1>p1 and m2<p2:
+        m1-=1
+        m2+=1
+    if m1==p1:
+        if m2<p2:
+            m2+=1
+        else: m2-=1
+    if m2==p2:
+        if m1<p1:
+            m1+=1
+        else: m1-=1    
+
+    return coord_monstre     
+
+
+    
+    
+
      
 
 
