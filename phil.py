@@ -17,6 +17,7 @@ donjon = create_donjon(nb_lines, nb_columns)
 
 # INITIALISATION SALLE
 salle = donjon[étage] # Nouvelle salle de Hanna
+
 murs = []
 espace_vide = []
 portes = []
@@ -91,7 +92,7 @@ while running:
             elif event.key == pg.K_SPACE and personnage == escalier:
                 print('coucou')
                 étage +=1
-                salle = donjon[étage] # Nouvelle salle de Hanna
+                salle = donjon[étage] # Nouvelle salle de Hanna==
                 murs = []
                 espace_vide = []
                 portes = []
@@ -112,7 +113,7 @@ while running:
                 potions, monstres = manu(salle, nb_lines, nb_columns)
                 personnage = rd.choice(espace_dispo(salle))
                 pg.display.update()
-            elif event.key == pg.K_SPACE and étage == 4 and graal == personnage:
+            elif event.key == pg.K_SPACE and étage == 5 and graal == personnage:
                 message = "Bravo, vous avez gangné"
                 running = False
             elif event.key == pg.K_p and sac != []:
@@ -152,6 +153,12 @@ while running:
             gris, (chemin[0] * cell_size,
             chemin[1] * cell_size, cell_size, cell_size)
         )
+    pg.draw.rect(
+        screen,
+        rouge, (escalier[0] * cell_size,
+        escalier[1] * cell_size, cell_size, cell_size)
+    )
+    
 
     # Affichage des potions
     for potion in potions:

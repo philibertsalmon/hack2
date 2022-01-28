@@ -80,7 +80,7 @@ def create_salle3(nb_lines, nb_columns, graal=False):
                 bas_gche = (x + vertical,y)
                 haut_drte = (x, y + horizontal)
                 bas_drte = (x + vertical, y + horizontal)
-                recap_salles.append([haut_gche, bas_gche, haut_drte, bas_drte])
+                recap_salles.append([haut_gche, haut_drte, bas_gche, bas_drte])
                 for k in range(horizontal+1) :
                     salle[x][y+k] = '-'
                     salle[x+vertical][y+k] = '-'
@@ -93,6 +93,41 @@ def create_salle3(nb_lines, nb_columns, graal=False):
     espacedispo = espace_dispo_point(salle)
     position_escalier = random.choice(espacedispo)
     salle[position_escalier[0]][position_escalier[1]] = '=' if not graal else 'g'
+    for coordonnée in recap_salles :
+        hg, hd, bg, bd = coordonnée[0], coordonnée[1], coordonnée[2], coordonnée[3]
+        a, b, c, d = 0,0,0,0
+        for k in range(hg[1], hd[1]):
+            if a == 0 :
+                for j in range(2, nb_lines - hg[0]-1):
+                    if salle[hg[0]-j][k] == '-' or salle[hg[0]-j][k] == '|':
+                        for l in range(-1, j+2):
+                            salle[hg[0]-l][k]='#'
+                        a+=1
+                        break
+        for k in range(hd[0], bd[0]):
+            if b == 0 :
+                for j in range(2, nb_columns - bd[1]-1):
+                    if salle[k][bd[1]+j] == '-' or salle[k][bd[1]+j] == '|':
+                        for l in range(-1, j+2):
+                            salle[k][bd[1]+l] = '#'
+                        b+=1
+                        break
+        for k in range(bg[1], bd[1]):
+            if c == 0 : 
+                for j in range(2, nb_lines - bg[0]-1):
+                    if salle[bg[0]+j][k] == '-' or salle[bg[0]+j][k] == '|':
+                        for l in range(-1, j+2):
+                            salle[bg[0]+l][k]='#'
+                        c+=1
+                        break
+        for k in range(hg[0], bg[0]):
+            if d == 0 :
+                for j in range(2, nb_columns - bg[1]-1):
+                    if salle[k][bg[1]-j] =='-' or salle[k][bg[1]-j] =='|':
+                        for l in range(-1, j+2):
+                            salle[k][bg[1]-l] = '#'
+                        d+=1
+                        break
     return salle, recap_salles
 
 
