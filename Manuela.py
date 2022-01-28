@@ -19,4 +19,4 @@ def manu(salle, nb_lines, nb_columns):
                     elif objet == "j":
                         potions.append((i,j))
 
-    return potions, monstres, escaliers
+    return potions, monstres
