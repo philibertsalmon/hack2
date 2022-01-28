@@ -2,16 +2,21 @@ import pygame as pg
 import random as rd
 
 from Manuela import manu
-from Hanna import create_salle, create_salle2
+from Hanna import create_donjon
 from Océane import *
 
-pg.init() #on initialise pygame, une fois au début du programe
+pg.init() # On initialise pygame, une fois au début du programe
 
 cell_size = 15
-nb_lines = 30
-nb_columns = 30
+nb_lines = 55
+nb_columns = 55
 
-salle = create_salle2(nb_lines, nb_columns) # Nouvelle salle de Hanna
+
+donjon = create_donjon(nb_lines, nb_columns)
+étage = 0
+
+# INITIALISATION SALLE
+salle = donjon[étage] # Nouvelle salle de Hanna
 murs = []
 espace_vide = []
 portes = []
@@ -26,18 +31,23 @@ for i in range(nb_lines):
             portes.append((i,j))
         elif salle[i][j] == '#':
             chemins.append((i,j))
+        elif salle[i][j] == '=':
+            escalier = i, j
+        elif salle[i][j] == 'g':
+            graal = i, j
 
 potions, monstres = manu(salle, nb_lines, nb_columns)
 
 
 black = (0, 0, 0)
 white = (255, 255, 255)
-red = (255, 0, 0)
+red = (88, 41, 0)
 bleu = (0, 0, 255)
 gris = (124, 124, 124)
 jaune = (255, 255, 0)
 violet = (238, 130, 238)
 orange = (255, 128, 0)
+rouge = (255, 0, 0)
 
 DIR_ZERO = (0, 0)
 DIR_LEFT = (-1, 0)
@@ -53,11 +63,13 @@ personnage = rd.choice(espace_dispo(salle))
 sac = []
 points = 5
 direction = DIR_ZERO
+message = ''
+
 
 while running:
 
-    screen = pg.display.set_mode((nb_lines*cell_size,nb_columns*cell_size)) # Fenêtre
-    pg.display.set_caption(f'Rogue game --- points : {points}') # Titre fenêtre
+    screen = pg.display.set_mode((nb_lines*cell_size, nb_columns * cell_size)) # Fenêtre
+    pg.display.set_caption(f'Points : {points} ---- Potions : {len(sac)} --- {message} --- Etage {étage}') # Titre fenêtre
     clock = pg.time.Clock()
 
     #On vérifie s'il est pas mort
@@ -76,10 +88,41 @@ while running:
                 direction = DIR_RIGHT
             elif event.key == pg.K_LEFT:
                 direction = DIR_LEFT
+            elif event.key == pg.K_SPACE and personnage == escalier:
+                print('coucou')
+                étage +=1
+                salle = donjon[étage] # Nouvelle salle de Hanna
+                murs = []
+                espace_vide = []
+                portes = []
+                chemins = []
+                for i in range(nb_lines):
+                    for j in range(nb_columns):
+                        if salle[i][j] == '|' or salle[i][j] == '-':
+                            murs.append((i,j))
+                        elif salle[i][j] == '.':
+                            espace_vide.append((i,j))
+                        elif salle[i][j] == '+':
+                            portes.append((i,j))
+                        elif salle[i][j] == '#':
+                            chemins.append((i,j))
+                        elif salle[i][j] == '=':
+                            escalier = i, j
+
+                potions, monstres = manu(salle, nb_lines, nb_columns)
+                personnage = rd.choice(espace_dispo(salle))
+                pg.display.update()
+            elif event.key == pg.K_SPACE and étage == 4 and graal == personnage:
+                message = "Bravo, vous avez gangné"
+                running = False
+            elif event.key == pg.K_p and sac != []:
+                sac.pop()
+                points += 1
+                message = "Vous avez utilisé une potion"
             break
 
     # Refresh perso :
-    personnage, points = deplacement_personnage(personnage, direction, monstres, potions, points, salle, sac)
+    personnage, points, message = deplacement_personnage(personnage, direction, monstres, potions, points, salle, sac, message, étage)
     direction = DIR_ZERO
 
     # Affichage de la salle
@@ -132,12 +175,6 @@ while running:
         orange, (personnage[0] * cell_size,
         personnage[1] * cell_size, cell_size, cell_size)
     )
-
-    # Affichage
-    #to_print = 
-    #font = pg.font.Font('freesansbold.ttf', 32)
-    #text = font.render(to_print, True, black, white)
-
 
 
     pg.display.update()

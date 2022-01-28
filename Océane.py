@@ -13,28 +13,33 @@ def espace_dispo(salle):
 
     for i in range(len(salle)):
         for j in range(len(salle[0])):
-            if salle[i][j]=='.':
+            if salle[i][j]=='.' or salle[i][j] == '=' or salle[i][j] == '#' or salle[i][j] == 'g' or salle[i][j] == '+':
                 ESPACE_DISPO.append((i,j))
     return ESPACE_DISPO
     
 
-def deplacement_personnage(personnage, direction, monstres, potions, points, salle, sac):
+def deplacement_personnage(personnage, direction, monstres, potions, points, salle, sac, message, étage):
     a, b = personnage
     ESPACE_DISPO = espace_dispo(salle)
     personnage_new = (a + direction[0], b + direction[1])
 
-    message=''
-
     if personnage_new in ESPACE_DISPO:
         if personnage_new in monstres:
             monstres.remove(personnage_new)
-            proba = [0, 1]
+            if étage == 0 or étage == 1:
+                proba = [0, 1]
+            elif étage == 2:
+                proba = [0, 0, 1]
+            elif étage == 3:
+                proba = [0, 0, 0, 1]
+            else:
+                proba = [0, 0, 0, 0, 1]
             p = rd.choice(proba)
             if p == 0: 
                 points -= 1
-                message += 'Vous avez rencontré un monstre, et vous avez perdu'
+                message = 'Vous avez rencontré un monstre, et vous avez perdu'
             if p == 1:
-                message += 'Vous avez rencontré un monstre, et vous avez gagné'
+                message = 'Vous avez rencontré un monstre, et vous avez gagné'
                 if points < 10:
                     points += 1
 
@@ -42,12 +47,15 @@ def deplacement_personnage(personnage, direction, monstres, potions, points, sal
             potions.remove(personnage_new)
             if points < 10:
                 points += 1
-            else: sac.append('potion')    
+                message = "Vous avez bu une potion"
+            else:
+                sac.append('potion')
+                message = "Une potion a rejoint votre sac"
         personnage = personnage_new
-    return personnage, points
+    return personnage, points, message
 
 
-def mouv_monstre(salle,personnage,coord_monstre):
+def mouv_monstre(personnage, coord_monstre):
     m1, m2 = coord_monstre
     p1, p2= personnage
 
